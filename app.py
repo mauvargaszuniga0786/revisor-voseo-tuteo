@@ -39,15 +39,18 @@ if uploaded_file is not None:
     voseo_encontradas = [word for word in voseo_palabras if word in texto_lower]
     tuteo_encontradas = [word for word in tuteo_palabras if word in texto_lower]
 
-    voseo_count = len(voseo_encontradas)
-    tuteo_count = len(tuteo_encontradas)
-
     st.subheader("Análisis:")
-    if voseo_count > tuteo_count:
-        st.success(f"El texto está mayormente en **VOSEO**.\nPalabras encontradas: {', '.join(voseo_encontradas)}")
-    elif tuteo_count > voseo_count:
-        st.success(f"El texto está mayormente en **TUTEO**.\nPalabras encontradas: {', '.join(tuteo_encontradas)}")
-    elif voseo_count == 0 and tuteo_count == 0:
-        st.warning("El texto parece **NEUTRO** o no contiene indicadores.")
+    if voseo_encontradas or tuteo_encontradas:
+        if voseo_encontradas:
+            st.write(f"**Palabras VOSEO encontradas:** {', '.join(voseo_encontradas)}")
+        if tuteo_encontradas:
+            st.write(f"**Palabras TUTEO encontradas:** {', '.join(tuteo_encontradas)}")
+
+        if len(voseo_encontradas) > len(tuteo_encontradas):
+            st.success("El texto está mayormente en **VOSEO**.")
+        elif len(tuteo_encontradas) > len(voseo_encontradas):
+            st.success("El texto está mayormente en **TUTEO**.")
+        else:
+            st.info("El texto contiene mezcla de voseo y tuteo.")
     else:
-        st.info(f"El texto contiene mezcla de voseo y tuteo.\nVoseo: {', '.join(voseo_encontradas)} | Tuteo: {', '.join(tuteo_encontradas)}")
+        st.warning("El texto parece **NEUTRO** o no contiene indicadores.")
