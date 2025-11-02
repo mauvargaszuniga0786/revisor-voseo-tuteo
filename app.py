@@ -2,8 +2,15 @@ import streamlit as st
 import requests
 from PIL import Image
 import io
+import re
 
 OCR_API_KEY = "K88651325788957"  # Tu API Key real
+
+def limpiar_texto(texto):
+    # Convertir a minúsculas y eliminar saltos de línea y caracteres especiales
+    texto = texto.lower()
+    texto = re.sub(r'[^a-záéíóúñ\s]', '', texto)  # mantener letras y tildes
+    return texto
 
 st.title("Revisor Voseo/Tuteo")
 
@@ -30,14 +37,15 @@ if uploaded_file is not None:
     st.subheader("Texto detectado:")
     st.write(detected_text)
 
-    # --- Análisis voseo/tuteo ---
+    # Limpiar texto manteniendo tildes
+    texto_limpio = limpiar_texto(detected_text)
+
+    # Diccionarios ampliados
     voseo_palabras = ["vos", "tenés", "hacés", "podés", "sabés", "querés", "pagá", "vení", "andá"]
     tuteo_palabras = ["tú", "tienes", "haces", "puedes", "sabes", "quieres", "te"]
 
-    texto_lower = detected_text.lower()
-
-    voseo_encontradas = [word for word in voseo_palabras if word in texto_lower]
-    tuteo_encontradas = [word for word in tuteo_palabras if word in texto_lower]
+    voseo_encontradas = [word for word in voseo_palabras if word in texto_limpio]
+    tuteo_encontradas = [word for word in tuteo_palabras if word in texto_limpio]
 
     st.subheader("Análisis:")
     if voseo_encontradas or tuteo_encontradas:
