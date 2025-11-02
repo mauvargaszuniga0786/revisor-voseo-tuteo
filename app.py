@@ -1,7 +1,8 @@
 import streamlit as st
-import easyocr
+import pytesseract
 from PIL import Image
 import numpy as np
+import cv2
 
 # Título de la aplicación
 st.title("Revisor Voseo/Tuteo")
@@ -14,18 +15,12 @@ if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption="Imagen subida", use_column_width=True)
 
-    # Convertir imagen a array para EasyOCR
+    # Convertir imagen a array y pasar a escala de grises
     img_array = np.array(image)
+    gray = cv2.cvtColor(img_array, cv2.COLOR_BGR2GRAY)
 
-    # Inicializar EasyOCR en CPU (evita error CUDA)
-    reader = easyocr.Reader(['es'], gpu=False)
-
-    # Extraer texto
-    st.write("Procesando texto...")
-    result = reader.readtext(img_array)
-
-    # Unir todo el texto detectado
-    detected_text = " ".join([res[1] for res in result])
+    # Extraer texto con Tesseract
+    detected_text = pytesseract.image_to_string(gray, lang="spa")
 
     # Mostrar texto detectado
     st.subheader("Texto detectado:")
