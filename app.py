@@ -4,7 +4,7 @@ from PIL import Image
 import io
 
 # Configuración
-OCR_API_KEY = "TU_API_KEY_DE_OCRSPACE"  # Obtén una gratis en https://ocr.space/ocrapi
+OCR_API_KEY = "K88651325788957"  # Obtén una gratis en https://ocr.space/ocrapi
 
 st.title("Revisor Voseo/Tuteo")
 
