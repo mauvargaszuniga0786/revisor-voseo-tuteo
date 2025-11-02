@@ -31,7 +31,7 @@ if uploaded_file is not None:
     st.write(detected_text)
 
     # --- Análisis voseo/tuteo ---
-    voseo_palabras = ["vos", "tenés", "hacés", "podés", "sabés", "querés", "pagá"]
+    voseo_palabras = ["vos", "tenés", "hacés", "podés", "sabés", "querés", "pagá", "vení", "andá"]
     tuteo_palabras = ["tú", "tienes", "haces", "puedes", "sabes", "quieres", "te"]
 
     texto_lower = detected_text.lower()
