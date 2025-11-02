@@ -7,9 +7,9 @@ import re
 OCR_API_KEY = "K88651325788957"  # Tu API Key real
 
 def limpiar_texto(texto):
-    # Convertir a minúsculas y eliminar saltos de línea y caracteres especiales
+    # Convertir a minúsculas y eliminar caracteres no alfabéticos (manteniendo tildes y espacios)
     texto = texto.lower()
-    texto = re.sub(r'[^a-záéíóúñ\s]', '', texto)  # mantener letras y tildes
+    texto = re.sub(r'[^a-záéíóúñ\s]', '', texto)
     return texto
 
 st.title("Revisor Voseo/Tuteo")
@@ -44,15 +44,17 @@ if uploaded_file is not None:
     voseo_palabras = ["vos", "tenés", "hacés", "podés", "sabés", "querés", "pagá", "vení", "andá"]
     tuteo_palabras = ["tú", "tienes", "haces", "puedes", "sabes", "quieres", "te"]
 
+    # Buscar coincidencias
     voseo_encontradas = [word for word in voseo_palabras if word in texto_limpio]
     tuteo_encontradas = [word for word in tuteo_palabras if word in texto_limpio]
 
     st.subheader("Análisis:")
     if voseo_encontradas or tuteo_encontradas:
+        st.write("**Palabras encontradas:**")
         if voseo_encontradas:
-            st.write(f"**Palabras VOSEO encontradas:** {', '.join(voseo_encontradas)}")
+            st.write(f"- VOSEO: {', '.join(voseo_encontradas)}")
         if tuteo_encontradas:
-            st.write(f"**Palabras TUTEO encontradas:** {', '.join(tuteo_encontradas)}")
+            st.write(f"- TUTEO: {', '.join(tuteo_encontradas)}")
 
         if len(voseo_encontradas) > len(tuteo_encontradas):
             st.success("El texto está mayormente en **VOSEO**.")
